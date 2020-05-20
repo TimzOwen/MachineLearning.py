@@ -401,3 +401,55 @@ In [10]: %timeit cross_val_score(reg, X, y, cv = 10)
 10 loops, best of 3: 24.5 ms per loop
 
 
+  
+#REGULARIZED REGRESSION
+# 1.0 ---> Ridge regression
+from sklearn.linear_model import Ridge
+X_train, x_test,y_train, y_test = train_test_split(X,y, test_size=0.3, random_state=42)
+
+ridge = Ridge(alpha=1, normalize=True)
+ridge.fit(X_train, y_train)
+ridge_pred = ridge.predict(X_test)
+ridge.score(X_test, y_test)
+
+# 2.0 ----> Lasso Regresion
+from sklearn.linear_model import Lasso
+X_train, x_test,y_train, y_test = train_test_split(X,y, test_size=0.3, random_state=42)
+
+lasso = Ridge(alpha=1, normalize=True)
+lasso.fit(X_train, y_train)
+lasso_pred = ridge.predict(X_test)
+lasso.score(X_test, y_test)
+
+#LASSO for feature selection
+from sklearn.linear_model import Lasso
+
+names = boston.drop('MEDV',axis=1).columns
+
+lasso = Lasso(alpha=0.1)
+
+lasso_coef = lasso.fit(X,y).coef_
+ 
+_ = plt.plot(range(len(names)), lasso_coef)
+_ = plt.xticks(range(len(names)), names, rotation=60)
+_ = plt.ylabel('Coefficients')
+plt.show()
+
+# Import Lasso
+from sklearn.linear_model import Lasso
+
+# Instantiate a lasso regressor: lasso
+lasso = Lasso(alpha=0.4, normalize=True)
+
+# Fit the regressor to the data
+lasso_coef = lasso.fit(X,y)
+
+# Compute and print the coefficients
+lasso_coef = lasso_coef.coef_
+print(lasso_coef)
+
+# Plot the coefficients
+plt.plot(range(len(df_columns)), lasso_coef)
+plt.xticks(range(len(df_columns)), df_columns.values, rotation=60)
+plt.margins(0.02)
+plt.show()
