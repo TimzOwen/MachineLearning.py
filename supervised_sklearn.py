@@ -336,6 +336,68 @@ rmse = np.sqrt(mean_squared_error(y_test,y_pred))
 print("Root Mean Squared Error: {}".format(rmse))
 
 
+#CROSS VALIDATION
+#spliting the data into test and train and using Folder mathods for training.
+#Hold one folder for testing and iterate through the rest as training data
 
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LinearRegression
+
+reg = LinearRegression()
+
+cv_results = cross_val_score(reg, X, y, cv=5)
+
+print(cv_results) #prints an array
+
+#you can also compute the mean 
+np.mean(cv_results)
+
+#EX 002
+# Import the necessary modules
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score
+
+# Create a linear regression object: reg
+reg = LinearRegression()
+
+# Compute 5-fold cross-validation scores: cv_scores
+cv_scores = cross_val_score(reg,X,y, cv=5)
+
+# Print the 5-fold cross-validation scores
+print(cv_scores)
+
+print("Average 5-Fold CV Score: {}".format(np.mean(cv_scores)))
+
+#outputs 
+[0.81720569 0.82917058 0.90214134 0.80633989 0.94495637]
+Average 5-Fold CV Score: 0.8599627722793232
+
+
+#K-FOLDER CV_COMPARISON
+# Import necessary modules
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score
+
+# Create a linear regression object: reg
+reg = LinearRegression()
+
+# Perform 3-fold CV
+cvscores_3 = cross_val_score(reg, X, y, cv=3)
+print(np.mean(cvscores_3))
+
+# Perform 10-fold CV
+cvscores_10 = cross_val_score(reg, X,y, cv=10)
+print(np.mean(cvscores_10))
+
+#output
+0.8718712782622108
+0.8436128620131201
+
+#using the time loops to check for comparison,
+In [3]: %timeit cross_val_score(reg, X, y, cv = 3)
+100 loops, best of 3: 7.83 ms per loop
+
+In [10]: %timeit cross_val_score(reg, X, y, cv = 10)
+10 loops, best of 3: 24.5 ms per loop
 
 
