@@ -241,6 +241,50 @@ plt.show()
 
 
 #Importing data for supervised Learning to predict Life expectancy of a country using their GDP
+# Import numpy and pandas
+import numpy as np
+import pandas as pd
+
+# Read the CSV file into a DataFrame: df
+df = pd.read_csv('gapminder.csv')
+
+# Create arrays for features and target variable
+y = df['life'].values
+X = df['fertility'].values
+
+# Print the dimensions of X and y before reshaping
+print("Dimensions of y before reshaping: {}".format(y.shape))
+print("Dimensions of X before reshaping: {}".format(X.shape))
+
+# Reshape X and y
+y = y.reshape(-1, 1)
+X = X.reshape(-1, 1)
+
+# Print the dimensions of X and y after reshaping
+print("Dimensions of y after reshaping: {}".format(y.shape))
+print("Dimensions of X after reshaping: {}".format(X.shape))
+
+#output
+    Dimensions of y before reshaping: (139,)
+    Dimensions of X before reshaping: (139,)
+    Dimensions of y after reshaping: (139, 1)
+    Dimensions of X after reshaping: (139, 1)
+    
+
+
+#THE BASICS OF LINEAR REGRESSION
+
+#Linear Regression on all features
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+reg_all = LinearRegression()
+
+reg_all.fit(X_train, y_train)
+y_pred=reg_all.predict(X_test)
+reg_all.score(X_test, y_test)
 
 
 
