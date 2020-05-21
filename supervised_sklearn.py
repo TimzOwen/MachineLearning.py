@@ -886,3 +886,123 @@ clf = SVC()
 # Setup the pipeline with the required steps: steps
 steps = [('imputation', imp),
         ('SVM', clf)]
+
+#ML PIPELINE002
+# Import necessary modules
+from sklearn.preprocessing import Imputer
+from sklearn.pipeline import Pipeline
+from sklearn.svm import SVC
+
+# Setup the pipeline steps: steps
+steps = [('imputation', Imputer(missing_values='NaN', strategy='most_frequent', axis=0)),
+        ('SVM', SVC())]
+
+# Create the pipeline: pipeline
+pipeline = Pipeline(steps)
+
+# Create training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.3, random_state=42)
+
+# Fit the pipeline to the train set
+pipeline.fit(X_train, y_train)
+
+# Predict the labels of the test set
+y_pred = pipeline.predict(X_test)
+
+# Compute metrics
+print(pipeline.score(X_test, y_test))
+
+#output
+ 0.9694656488549618
+
+
+# Import necessary modules
+from sklearn.preprocessing import Imputer
+from sklearn.pipeline import Pipeline
+from sklearn.svm import SVC
+
+# Setup the pipeline steps: steps
+steps = [('imputation', Imputer(missing_values='NaN', strategy='most_frequent', axis=0)),
+        ('SVM', SVC())]
+
+# Create the pipeline: pipeline
+pipeline = Pipeline(steps)
+
+# Create training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.3, random_state=42)
+
+# Fit the pipeline to the train set
+pipeline.fit(X_train, y_train)
+
+# Predict the labels of the test set
+y_pred = pipeline.predict(X_test)
+
+# Compute metrics
+print(classification_report(y_test, y_pred))
+
+
+                precision    recall  f1-score   support
+    
+       democrat       0.99      0.96      0.98        85
+     republican       0.94      0.98      0.96        46
+    
+    avg / total       0.97      0.97      0.97       131
+    
+    
+    
+
+#CENTERING AND SCALING DATA ON MACHINES
+from sklearn.preprocessing import scale
+
+X_scaled = scale(X)
+
+np.mean(X), np.std(X)
+
+np.mean(X_scaled), np.std(X_scaled)
+
+#SCALING IN PIPELINE
+
+from sklearn.preprocessing import StandardScaler
+
+steps = [('scaler',StandardScaler()),
+         ('Knn',KNeighborsClassifier())]
+pipeline = Pipeline(steps)
+
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=22)
+
+knn_scaled = pipeline.fit(X_train, y_train)
+
+y_pred = pipeline.predict(X_test)
+
+accuracy_score(y_test, y_pred)
+
+Knn_unscaled  = KNeighborsClassifier().fit(X_train, y_train)
+
+Knn_unscaled.score(X_test, y_test)
+
+
+#cross validation CV and Scaling in pipeline
+steps = [('scaler',StandardScaler()),
+         ('Knn',KNeighborsClassifier())]
+
+pipeline = Pipeline(steps)
+
+parameters = {Knn__n_neighbors: np.arange(1,50)}
+
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=21)
+
+cv = GridSearchCV(pipeline, param_grid=parameters)
+
+cv.fit(X_train, y_train)
+
+y_pred = cv.predict(X_test)
+
+#print best param
+print(cv.best_params_)
+
+#print_score
+print(cv.score(X_test, y_test))
+
+#print classfication report
+print(classification_report(y_test, y_pred))
+
