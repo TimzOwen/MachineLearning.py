@@ -758,3 +758,67 @@ print("Tuned ElasticNet l1 ratio: {}".format(gm_cv.best_params_))
 print("Tuned ElasticNet R squared: {}".format(r2))
 print("Tuned ElasticNet MSE: {}".format(mse))
 
+
+
+
+#PREPROCESSING DATA
+#encoding dummy variables
+import pandas as pd
+
+#read the csv
+df = pd.read_csv('auto.csv')
+
+df_origin = pd.get_dummies(df)
+
+print(df-origin.head())
+
+#drop asia
+df_origin = df_origin.drop('origin_Asia', axis=1)
+
+print(df_origin.head())
+
+
+#EX 2
+# Import pandas
+import pandas as pd 
+
+# Read 'gapminder.csv' into a DataFrame: df
+df = pd.read_csv('gapminder.csv')
+
+# Create a boxplot of life expectancy per region
+df.boxplot('life', 'Region', rot=60)
+
+# Show the plot
+plt.show()
+
+
+#EX 3 dummies
+# Create dummy variables: df_region
+df_region = pd.get_dummies(df)
+
+# Print the columns of df_region
+print(df_region.columns)
+
+# Create dummy variables with drop_first=True: df_region
+df_region = df_region.drop('Region_America', axis=1)
+
+# Print the new columns of df_region
+print(df_region.columns)
+
+#now run throught the whole model
+# Import necessary modules
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import cross_val_score
+
+# Instantiate a ridge regressor: ridge
+ridge = Ridge(alpha=0.5, normalize=True)
+
+# Perform 5-fold cross-validation: ridge_cv
+ridge_cv = cross_val_score(ridge, X, y, cv=5)
+
+# Print the cross-validated scores
+print(ridge_cv)
+
+#output
+ [0.86808336 0.80623545 0.84004203 0.7754344  0.87503712]
+
