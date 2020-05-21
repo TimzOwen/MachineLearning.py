@@ -556,3 +556,107 @@ print(classification_report(y_test, y_pred))
     
     avg / total       0.72      0.73      0.72       308
 
+    #LOGISTIC REGRESSION
+#uses a decision boundary to make decicsion of 0.5>1 0.4<0
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+
+logreg = LogisticRegression()
+
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.40,
+random_state=42)
+
+logreg.fit(X_train, y_train)
+
+y_predict = logreg.predict(X_test)
+
+ 
+ #Plotting ROC curve variance
+ from sklearn.metrics import roc_curve 
+ 
+ y_pred_prob = logreg.predict_proba(X_test)[:,1]
+ 
+ fpr, tpr, thresholds = roc_curve(y_test, y_pred_prob)
+ 
+ #plot the results
+ plt.plot([0,1], [0,1], 'k--')
+ plt.plot(fpr, tpr, label='Logistic Regression ')
+ plt.xlable('False positive Rate')
+ plt.ylabel('True positive Rate')
+ plt.title(Logistic Regression ROC Curve)
+ plt.show()
+
+
+# Import the necessary modules
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix,classification_report
+
+# Create training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.4, random_state=42)
+
+# Create the classifier: logreg
+logreg = LogisticRegression()
+
+# Fit the classifier to the training data
+logreg.fit(X_train, y_train)
+
+# Predict the labels of the test set: y_pred
+y_pred = logreg.predict(X_test)
+
+# Compute and print the confusion matrix and classification report
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+
+
+#output 
+             precision    recall  f1-score   support
+
+          0       0.83      0.85      0.84       206
+          1       0.69      0.66      0.67       102
+
+avg / total       0.79      0.79      0.79       308
+
+#now plot a ROC curve
+# Import necessary modules
+from sklearn.metrics import roc_curve
+
+# Compute predicted probabilities: y_pred_prob
+y_pred_prob = logreg.predict_proba(X_test)[:,1]
+ 
+
+# Generate ROC curve values: fpr, tpr, thresholds
+fpr, tpr, thresholds = roc_curve(y_test, y_pred_prob)
+
+# Plot ROC curve
+plt.plot([0, 1], [0, 1], 'k--')
+plt.plot(fpr, tpr, label='Logistic Regression ')
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curve')
+plt.show()
+
+#USING AUC TO FIND THE AREA
+from sklearn.metrics import roc_auc_score
+
+logreg = LogisticRegression()
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.4, random_state=42)
+
+logreg.fit(X_train, y_train)
+
+y_pred_prob = logreg.predict(X_test)[:, 1]
+
+roc_auc_score(y_test,y_pred_prob)
+
+#output 
+0.989856525456
+
+
+#USING AUC CROSS-VALIDATION
+from sklearn.model_selection import cross_val_score
+
+cv_scores = cross_val_score(logreg, X,y, cv=5, scoring='roc_auc')
+
+print(cv_scores)
+
+
