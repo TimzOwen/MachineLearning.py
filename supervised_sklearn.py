@@ -822,3 +822,67 @@ print(ridge_cv)
 #output
  [0.86808336 0.80623545 0.84004203 0.7754344  0.87503712]
 
+  
+  
+  HANDLING MISSING DATA 
+#using PIMA Indians datasets,
+
+df = pd.load_csv('diabetes.csv')
+df.info() #shows the data summary
+#show latest record
+print(df.head())
+
+#drop missing data 
+df.insulin.replace(0, np.nan, inplace=True)
+df.tricep.replace(0, np.nan, inplace=True)
+df.bmi.replace(0, np.nan, inplace=True)
+df.info() #to show table info
+
+#drop all rows containing missing data 
+df = df.dropna()
+df.shape
+
+#IMPUTING MISSING DATA
+from sklearn.preprocessing import Imputer 
+imp = Imputer(missing_values='NAN', strategy='mean',axis=0)
+imp.fit(X)
+X=imp.transform(X)
+
+#IMPUTING WITH PIPELINES
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import imputer 
+
+imp = Imputer(missing_value='NaN', strategy='mean',axis=0)
+
+logreg = LogisticRegression()
+
+steps = [('imputation', imp),
+         'logistic_regressioin', logreg]
+
+Pipeline = Pipeline(steps)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+#fit the pipeline
+pipeline.fit(X_train, y_train)
+
+y_pred = Pipeline.predict(X_test)
+
+#compute accuracy
+pipeline.score(X_test, y_test)
+
+
+#IMPUTING MISSING DATA WITH PIPELINE    
+# Import the Imputer module
+from sklearn.preprocessing import Imputer
+from sklearn.svm import SVC
+
+# Setup the Imputation transformer: imp
+imp = Imputer(missing_values='NaN', strategy='most_frequent', axis=0)
+
+# Instantiate the SVC classifier: clf
+clf = SVC()
+
+# Setup the pipeline with the required steps: steps
+steps = [('imputation', imp),
+        ('SVM', clf)]
