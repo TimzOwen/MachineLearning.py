@@ -1091,3 +1091,5 @@ print("Tuned Model Parameters: {}".format(cv.best_params_))
     
     Tuned Model Parameters: {'SVM__C': 10, 'SVM__gamma': 0.1}
     
+      Tuned ElasticNet Alpha: {'elasticnet__l1_ratio': 1.0}
+    Tuned ElasticNet R squared: 0.8862016570888217
